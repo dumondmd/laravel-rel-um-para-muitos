@@ -50,3 +50,27 @@ Route::get('/produtos', function () {
    	}
 });
 
+
+Route::get('/categoriasprodutos', function () {
+    $cats = Categoria::all();
+    if (count($cats) === 0) {
+        echo "<h4>Você nao possui nenhuma categoria cadastrada</h4>";
+    }
+    else {
+        foreach($cats as $c) {
+            echo "<h4>" . $c->id . ") " . $c->nome . "</h4>";
+            $prods = $c->produtos;
+            if (count($prods) > 0) {
+                echo "<ul>";
+                foreach($prods as $p) {
+                    echo "<li>" . $p->nome . "</p>";
+                }
+                echo "</ul>";
+            }
+            else {
+                echo "<h4>Categoria não possui produtos</h4>";
+            }
+            echo "<hr>";
+        }
+    }
+});
