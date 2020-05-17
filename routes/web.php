@@ -102,3 +102,18 @@ Route::get('removerprodutocategoria', function () {
     }
     return '';
 });
+
+Route::get('/adicionarproduto/{cat}', function ($catid) {
+    $cat = Categoria::with('produtos')->find($catid);
+    $prod = new Produto();
+
+    $prod->nome = "Novo produto adicionado";
+    $prod->estoque = 30;
+    $prod->preco = 100; 
+
+    if(isset($cat)) {
+        $cat->produtos()->save($prod); 
+    }
+    $cat->load('produtos'); //Atualizando produtos
+    return $cat->toJson();;
+});
